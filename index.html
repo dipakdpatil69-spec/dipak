@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberShield - Threat Detection Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <button class="sidebar-toggle" id="sidebarToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <h1 class="logo">🛡️ CyberShield</h1>
+            <div class="header-actions">
+                <span class="status-indicator online"></span>
+                <span class="status-text">System Online</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar">
+        <ul class="nav-menu">
+            <li class="nav-item active">
+                <a href="#dashboard" class="nav-link" data-section="dashboard">
+                    <span class="nav-icon">📊</span>
+                    Dashboard
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#alerts" class="nav-link" data-section="alerts">
+                    <span class="nav-icon">🚨</span>
+                    Alerts
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#devices" class="nav-link" data-section="devices">
+                    <span class="nav-icon">💻</span>
+                    Devices
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#settings" class="nav-link" data-section="settings">
+                    <span class="nav-icon">⚙️</span>
+                    Settings
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#url-scanner" class="nav-link" data-section="url-scanner">
+                    <span class="nav-icon">🔍</span>
+                    URL Scanner
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#quarantine" class="nav-link" data-section="quarantine">
+                    <span class="nav-icon">🔒</span>
+                    Quarantine
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#history" class="nav-link" data-section="history">
+                    <span class="nav-icon">📋</span>
+                    History
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content" id="mainContent">
+        
+        <!-- System Status Notice -->
+        <div class="demo-notice">
+            <div class="demo-content">
+                <span class="demo-icon">🛡️</span>
+                <div class="demo-text">
+                    <strong class="status-text">CONNECTING TO SECURITY SYSTEM</strong>
+                    <p>Initializing real-time security monitoring...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Section -->
+        <section class="section active" id="dashboard">
+            <!-- Protection Status Panel (McAfee Style) -->
+            <div class="protection-panel">
+                <div class="protection-status">
+                    <div class="status-indicator-large active"></div>
+                    <div class="protection-info">
+                        <h2>Your Device is Protected</h2>
+                        <p>All security features are active and up to date</p>
+                    </div>
+                </div>
+                <div class="protection-score">
+                    <div class="score-circle">
+                        <span class="score-number" id="protectionScore">95</span>
+                        <span class="score-label">Security Score</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <button class="btn-action btn-quick-scan" id="quickScanBtn">
+                    <span class="btn-icon">⚡</span>
+                    <span class="btn-text">Quick Scan</span>
+                    <span class="btn-subtext">2 min</span>
+                </button>
+                <button class="btn-action btn-full-scan" id="fullScanBtn">
+                    <span class="btn-icon">🔍</span>
+                    <span class="btn-text">Full Scan</span>
+                    <span class="btn-subtext">15 min</span>
+                </button>
+                <button class="btn-action btn-quarantine" id="quarantineBtn">
+                    <span class="btn-icon">🔒</span>
+                    <span class="btn-text">Quarantine</span>
+                    <span class="btn-subtext" id="quarantineCount">0 items</span>
+                </button>
+                <button class="btn-action btn-history" id="historyBtn">
+                    <span class="btn-icon">📋</span>
+                    <span class="btn-text">History</span>
+                    <span class="btn-subtext">View all</span>
+                </button>
+            </div>
+
+            <!-- Summary Cards -->
+            <div class="cards-grid">
+                <div class="card summary-card protected">
+                    <div class="card-icon">✅</div>
+                    <div class="card-content">
+                        <h3>Threats Blocked</h3>
+                        <div class="card-value" id="threatsBlocked">1,247</div>
+                        <div class="card-change positive">Last 24 hours</div>
+                    </div>
+                </div>
+
+                <div class="card summary-card">
+                    <div class="card-icon">🛡️</div>
+                    <div class="card-content">
+                        <h3>Real-time Protection</h3>
+                        <div class="card-value">ACTIVE</div>
+                        <div class="card-change positive">Always monitoring</div>
+                    </div>
+                </div>
+
+                <div class="card summary-card">
+                    <div class="card-icon">📱</div>
+                    <div class="card-content">
+                        <h3>Devices Monitored</h3>
+                        <div class="card-value" id="devicesMonitored">5</div>
+                        <div class="card-change positive">All protected</div>
+                    </div>
+                </div>
+
+                <div class="card summary-card">
+                    <div class="card-icon">🔄</div>
+                    <div class="card-content">
+                        <h3>Last Full Scan</h3>
+                        <div class="card-value" id="lastScanTime">--:--</div>
+                        <div class="card-change positive">Auto-scheduled</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Real-time Attack Status -->
+            <div class="attack-status-container">
+                <div class="attack-status-header">
+                    <h3>🔴 Live Attack Monitoring - ACTIVE THREATS DETECTED</h3>
+                    <div class="status-indicators">
+                        <div class="indicator" id="networkStatus">
+                            <span class="indicator-dot safe"></span>
+                            <span>Network: Safe</span>
+                        </div>
+                        <div class="indicator" id="systemStatus">
+                            <span class="indicator-dot critical"></span>
+                            <span>System: UNDER ATTACK</span>
+                        </div>
+                        <div class="indicator" id="dataStatus">
+                            <span class="indicator-dot warning"></span>
+                            <span>Data: Monitoring</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="attack-feed" id="attackFeed">
+                    <div class="feed-item">
+                        <span class="timestamp">NOW</span>
+                        <span class="severity critical">CRITICAL</span>
+                        <span class="message">🎣 PHISHING: Malicious email with fake login page blocked</span>
+                    </div>
+                    <div class="feed-item">
+                        <span class="timestamp">NOW</span>
+                        <span class="severity critical">CRITICAL</span>
+                        <span class="message">🦠 MALWARE: Trojan horse detected and quarantined</span>
+                    </div>
+                    <div class="feed-item">
+                        <span class="timestamp">NOW</span>
+                        <span class="severity high">HIGH</span>
+                        <span class="message">🔨 BRUTE FORCE: 500+ login attempts blocked from 203.145.67.89</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Live Chart -->
+            <div class="chart-container">
+                <div class="chart-header">
+                    <h3>🔥 Attack Patterns & Blocked Threats</h3>
+                    <div class="chart-controls">
+                        <button class="chart-btn active" data-timeframe="24h">24H</button>
+                        <button class="chart-btn" data-timeframe="7d">7D</button>
+                        <button class="chart-btn" data-timeframe="30d">30D</button>
+                    </div>
+                </div>
+                <div class="chart-area">
+                    <canvas id="threatChart" width="800" height="300"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Alerts Section -->
+        <section class="section" id="alerts">
+            <div class="section-header">
+                <h2>Security Alerts</h2>
+                <button class="btn-primary" id="addAlertBtn">🔄 Refresh Security Data</button>
+            </div>
+
+            <div class="alerts-container">
+                <div class="alerts-filters">
+                    <select id="severityFilter">
+                        <option value="all">All Severities</option>
+                        <option value="critical">Critical</option>
+                        <option value="high">High</option>
+                        <option value="medium">Medium</option>
+                        <option value="low">Low</option>
+                    </select>
+                </div>
+
+                <div class="alerts-table-container">
+                    <table class="alerts-table">
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>Severity</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                                <th>Source</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="alertsTableBody">
+                            <!-- Alerts will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Devices Section -->
+        <section class="section" id="devices">
+            <div class="section-header">
+                <h2>Device Security Status</h2>
+            </div>
+            
+            <div class="devices-grid">
+                <!-- Real devices will be populated here -->
+            </div>
+        </section>
+
+        <!-- URL Security Scanner Section -->
+        <section class="section" id="url-scanner">
+            <div class="section-header">
+                <h2>🔍 URL Security Scanner</h2>
+                <p class="section-description">Analyze URLs for phishing, malware, and security threats</p>
+            </div>
+
+            <div class="url-scanner-container">
+                <div class="scanner-input-section">
+                    <div class="input-group">
+                        <input type="url" id="urlInput" placeholder="Paste URL here to scan for threats..." class="url-input">
+                        <button id="scanUrlBtn" class="btn-primary scan-btn">
+                            <span class="scan-icon">🔍</span>
+                            Scan URL
+                        </button>
+                    </div>
+                </div>
+
+                <div class="scanner-results" id="scannerResults" style="display: none;">
+                    <div class="results-header">
+                        <div class="security-status" id="securityStatus">
+                            <span class="status-icon" id="statusIcon">🛡️</span>
+                            <span class="status-text" id="statusText">Analyzing...</span>
+                        </div>
+                        <div class="scan-timestamp" id="scanTimestamp"></div>
+                    </div>
+
+                    <div class="results-grid">
+                        <!-- Threat Analysis -->
+                        <div class="result-card threat-analysis">
+                            <h3>🚨 Threat Analysis</h3>
+                            <div class="threat-indicators" id="threatIndicators">
+                                <!-- Threat indicators will be populated here -->
+                            </div>
+                        </div>
+
+                        <!-- Domain Information -->
+                        <div class="result-card domain-info">
+                            <h3>🌐 Domain Information</h3>
+                            <div class="domain-details" id="domainDetails">
+                                <!-- Domain details will be populated here -->
+                            </div>
+                        </div>
+
+                        <!-- Attacker Details -->
+                        <div class="result-card attacker-info">
+                            <h3>👤 Potential Attacker Details</h3>
+                            <div class="attacker-details" id="attackerDetails">
+                                <!-- Attacker information will be populated here -->
+                            </div>
+                        </div>
+
+                        <!-- Security Recommendations -->
+                        <div class="result-card recommendations">
+                            <h3>🛡️ Security Recommendations</h3>
+                            <div class="recommendation-list" id="recommendationList">
+                                <!-- Recommendations will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Settings Section -->
+        <section class="section" id="settings">
+            <div class="section-header">
+                <h2>System Settings</h2>
+            </div>
+            <div class="placeholder-content">
+                <div class="placeholder-icon">⚙️</div>
+                <h3>Configuration Panel</h3>
+                <p>Configure security policies, thresholds, and system preferences.</p>
+            </div>
+        </section>
+
+        <!-- Quarantine Section -->
+        <section class="section" id="quarantine">
+            <div class="section-header">
+                <h2>Quarantine</h2>
+                <p class="section-description">Isolated threats and suspicious files</p>
+            </div>
+            <div class="quarantine-container">
+                <div class="quarantine-list" id="quarantineList">
+                    <div class="empty-state">
+                        <div class="empty-icon">✨</div>
+                        <h3>No Quarantined Items</h3>
+                        <p>Your system is clean and safe</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- History Section -->
+        <section class="section" id="history">
+            <div class="section-header">
+                <h2>Threat History</h2>
+                <p class="section-description">All detected and blocked threats</p>
+            </div>
+            <div class="history-container">
+                <div class="history-list" id="historyList">
+                    <div class="empty-state">
+                        <div class="empty-icon">📋</div>
+                        <h3>No History</h3>
+                        <p>No threats detected yet</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modal for Alert Details -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal" id="alertModal">
+            <div class="modal-header">
+                <h3>Alert Details</h3>
+                <button class="modal-close" id="modalClose">&times;</button>
+            </div>
+            <div class="modal-content">
+                <div class="alert-detail-grid">
+                    <div class="detail-item">
+                        <label>Alert ID:</label>
+                        <span id="modalAlertId">--</span>
+                    </div>
+                    <div class="detail-item">
+                        <label>Severity:</label>
+                        <span id="modalSeverity" class="severity-badge">--</span>
+                    </div>
+                    <div class="detail-item">
+                        <label>Type:</label>
+                        <span id="modalType">--</span>
+                    </div>
+                    <div class="detail-item">
+                        <label>Source IP:</label>
+                        <span id="modalSource">--</span>
+                    </div>
+                    <div class="detail-item">
+                        <label>Timestamp:</label>
+                        <span id="modalTimestamp">--</span>
+                    </div>
+                    <div class="detail-item full-width">
+                        <label>Description:</label>
+                        <p id="modalDescription">--</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="btn-primary">Acknowledge</button>
+                <button class="btn-secondary">Dismiss</button>
+                <button class="btn-danger">Block Source</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
